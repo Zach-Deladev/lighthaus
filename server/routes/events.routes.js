@@ -12,11 +12,11 @@ router.post("/", createEvents)
 
 // Update events
 
-router.put("/:id", updateEvents)
+router.put("/", updateEvents)
 
 // Delete events
 
-router.delete("/:id", deleteEvents)
+router.delete("/", deleteEvents)
 
 
 module.exports = router;
