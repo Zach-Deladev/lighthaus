@@ -1,22 +1,27 @@
-const express = require("express")
-const router = express.Router()
-const {getEvents, createEvents, updateEvents, deleteEvents} = require("../controllers/events.controller")
+const express = require("express");
+const router = express.Router();
+const {
+  getEvents,
+  createEvents,
+  updateEvents,
+  deleteEvents,
+} = require("../controllers/events.controller");
 
+const { protect } = require("../middleware/auth.middleware");
 // Get events
 
-router.get("/", getEvents)
+router.get("/", getEvents);
 
 // Create events
 
-router.post("/", createEvents)
+router.post("/", protect, createEvents);
 
 // Update events
 
-router.put("/", updateEvents)
+router.put("/", protect, updateEvents);
 
 // Delete events
 
-router.delete("/", deleteEvents)
-
+router.delete("/", protect, deleteEvents);
 
 module.exports = router;
