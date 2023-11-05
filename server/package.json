@@ -4,8 +4,8 @@
   "description": "lighthaus",
   "main": "server.js",
   "scripts": {
-    "start": "node server/server.js",
-    "server": "nodemon server/server.js"
+    "start": "node src/server.js",
+    "server": "nodemon src/server.js"
   },
   "author": "Zach Delapenha",
   "license": "MIT",
