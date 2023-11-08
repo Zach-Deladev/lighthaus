@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Header from "./components/Header";
+import Admin from "./pages/Admin";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Events from "./pages/Events";
+import Music from "./pages/Music";
+import Contact from "./pages/Contact";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Set the initial authentication state
 
+  // Define the logout function
+  const handleLogout = () => {
+    // Perform the logout actions (e.g., clear JWT, end user session)
+    setIsLoggedIn(false); // Update the authentication state to false
+  };
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <Header isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/admin" element={<Login />}></Route>
+          <Route path="/dashboard" element={<Admin />}></Route>
+          <Route path="/events" element={<Events />}></Route>
+          <Route path="/music" element={<Music />}></Route>
+          <Route path="/contact" element={<Contact />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
