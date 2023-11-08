@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 
-function Login() {
+function Register() {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    password2: "",
   });
 
-  const { email, password } = formData;
+  const { name, email, password, password2 } = formData;
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -24,12 +26,23 @@ function Login() {
     <>
       <section className="heading">
         <h1>
-          <FaSignInAlt /> Login
+          <FaUser /> Register
         </h1>
-        <p>Log in to your account</p>
+        <p>Please create an account.</p>
       </section>
       <section className="form">
         <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <input
+              type="text"
+              className="formcontrol"
+              id="name"
+              name="name"
+              value={name}
+              placeholder="Enter your name"
+              onChange={onChange}
+            />
+          </div>
           <div className="form-group">
             <input
               type="email"
@@ -52,10 +65,20 @@ function Login() {
               onChange={onChange}
             />
           </div>
-
+          <div className="form-group">
+            <input
+              type="password"
+              className="formcontrol"
+              id="password2"
+              name="password2"
+              value={password2}
+              placeholder="Re enter your password"
+              onChange={onChange}
+            />
+          </div>
           <div className="form-group">
             <button type="submit" className="btn btn-block">
-              Login
+              Register
             </button>
           </div>
         </form>
@@ -64,4 +87,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

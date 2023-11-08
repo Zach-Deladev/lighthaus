@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Events from "./pages/Events";
 import Music from "./pages/Music";
 import Contact from "./pages/Contact";
+import Register from "./pages/Register";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Set the initial authentication state
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/admin" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
           <Route path="/dashboard" element={<Admin />}></Route>
           <Route path="/events" element={<Events />}></Route>
           <Route path="/music" element={<Music />}></Route>

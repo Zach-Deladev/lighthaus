@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
-    "server": "nodemon src/server.js"
+    "server": "nodemon src/server.js",
+    "client": "npm start --prefix client "
   },
   "author": "Zach Delapenha",
   "license": "MIT",
