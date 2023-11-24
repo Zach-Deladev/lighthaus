@@ -1,9 +1,9 @@
-const Events = require("../models/events.model");
+import Event from "../models/eventModel.js";
 
 // Get events
 
 const getEvents = async (req, res) => {
-  const events = await Events.find();
+  const events = await Event.find();
   //  add a method to list events by date
   // const today = new Date();
   //               today.setHours(0, 0, 0, 0); // Set the time to 00:00:00 so that we only compare the date part
@@ -23,7 +23,7 @@ const createEvents = async (req, res) => {
   } else {
     try {
       const newEvent = { ...req.body, user: req.user.id };
-      const createdEvent = await Events.create(newEvent);
+      const createdEvent = await Event.create(newEvent);
       res.status(201).json(createdEvent);
     } catch (error) {
       res.status(500).json({ error: "Failed to create the event" });
@@ -43,7 +43,7 @@ const updateEvents = async (req, res) => {
       .json({ error: "Event ID is missing from the request parameters" });
   } else {
     try {
-      const event = await Events.findOneAndUpdate({ _id: eventId }, req.body);
+      const event = await Event.findOneAndUpdate({ _id: eventId }, req.body);
       console.log(event);
       res.json(event);
     } catch (error) {
@@ -57,16 +57,11 @@ const deleteEvents = async (req, res) => {
   try {
     // Get event id
     const eventId = req.body._id;
-    await Events.deleteOne({ _id: eventId });
+    await Event.deleteOne({ _id: eventId });
     res.status(200).send();
   } catch (error) {
     res.status(500).json({ error: "Unknown server error" });
   }
 };
 
-module.exports = {
-  getEvents,
-  createEvents,
-  updateEvents,
-  deleteEvents,
-};
+export { getEvents, createEvents, updateEvents, deleteEvents };

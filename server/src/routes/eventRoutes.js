@@ -1,15 +1,15 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
+import {
   getEvents,
   createEvents,
   updateEvents,
   deleteEvents,
-} = require("../controllers/events.controller");
+} from "../controllers/eventController.js";
 
-const { protect } = require("../middleware/auth.middleware");
-// Get events
+const router = express.Router();
 
+// get events
 router.get("/", getEvents);
 
 // Create events
@@ -24,4 +24,4 @@ router.put("/", protect, updateEvents);
 
 router.delete("/", protect, deleteEvents);
 
-module.exports = router;
+export default router;

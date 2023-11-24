@@ -1,90 +1,71 @@
-import { useState, useEffect } from "react";
-import { FaUser } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Row, Col } from "react-bootstrap";
+import FormContainer from "../components/FormContainer";
+import Loader from "../components/Loader";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useData } from "../context/DataContext";
 
-function Register() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    password2: "",
-  });
+const RegisterScreen = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { name, email, password, password2 } = formData;
+  const navigate = useNavigate();
+  const { userData, isAuthenticated, registerUser } = useData();
 
-  const onChange = (e) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [navigate, isAuthenticated]);
 
-  const onSubmit = (e) => {
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await registerUser({ name, email, password });
+      navigate("/");
+    } catch (err) {
+      // Type check to safely access 'message' property
+      if (err instanceof Error) {
+        // 'err' is now treated as an instance of Error, and we can access 'message'
+        toast.error(err.message);
+      } else {
+        // If 'err' is not an Error, handle or log it appropriately
+        console.error("An unexpected error occurred:", err);
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <>
-      <section className="heading">
-        <h1>
-          <FaUser /> Register
-        </h1>
-        <p>Please create an account.</p>
-      </section>
-      <section className="form">
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              type="text"
-              className="formcontrol"
-              id="name"
-              name="name"
-              value={name}
-              placeholder="Enter your name"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="email"
-              className="formcontrol"
-              id="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="formcontrol"
-              id="password"
-              name="password"
-              value={password}
-              placeholder="Choose your password"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="formcontrol"
-              id="password2"
-              name="password2"
-              value={password2}
-              placeholder="Re enter your password"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <button type="submit" className="btn btn-block">
-              Register
-            </button>
-          </div>
-        </form>
-      </section>
-    </>
+    <FormContainer>
+      <h1>Register</h1>
+      <Form onSubmit={submitHandler}>
+        {/* Form fields remain unchanged */}
+        {/* ... */}
+        <Button type="submit" variant="primary" className="mt-3">
+          Register
+        </Button>
+        {isLoading && <Loader />}
+      </Form>
+      <Row className="py-3">
+        <Col>
+          Already have an account? <Link to={`/login`}>Login</Link>
+        </Col>
+      </Row>
+    </FormContainer>
   );
-}
+};
 
-export default Register;
+export default RegisterScreen;

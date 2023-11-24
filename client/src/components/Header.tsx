@@ -6,7 +6,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
 import logo from "../assets/logo.png";
 
-function Header({ isLoggedIn, onLogout }) {
+// Define the interface for the props
+interface HeaderProps {
+  isAuthenticated: boolean;
+  onLogout: () => void;
+}
+
+function Header({ isAuthenticated, onLogout }: HeaderProps) {
   const [navBackground, setNavBackground] = useState(false);
   const navRef = useRef(false);
 
@@ -19,7 +25,6 @@ function Header({ isLoggedIn, onLogout }) {
     };
 
     document.addEventListener("scroll", handleScroll);
-
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
@@ -51,24 +56,16 @@ function Header({ isLoggedIn, onLogout }) {
           <Nav.Link as={Link} to="/contact" className={styles.pagename}>
             Contact
           </Nav.Link>
-          {isLoggedIn ? (
-            <NavDropdown
-              title="Account"
-              id="basic-nav-dropdown"
-              className={styles.dropdown}
-            >
-              <NavDropdown.Item
-                as={Link}
-                to="/dashboard"
-                className={styles.pagename2}
-              >
+          {isAuthenticated && (
+            <>
+              <Nav.Link as={Link} to="/admin" className={styles.pagename}>
                 Dashboard
-              </NavDropdown.Item>
-              <NavDropdown.Item onClick={onLogout} className={styles.pagename2}>
+              </Nav.Link>
+              <Nav.Link onClick={onLogout} className={styles.pagename}>
                 <FaSignOutAlt /> Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-          ) : null}
+              </Nav.Link>
+            </>
+          )}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
