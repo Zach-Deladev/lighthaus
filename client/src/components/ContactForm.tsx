@@ -17,7 +17,7 @@ export default function ContactForm() {
     setFormData({});
   };
   return (
-    <div className="relative bg-white dark:bg-gray-800">
+    <div className="relative relative bg-gray-100 dark:bg-gray-800">
       <div className="lg:absolute lg:inset-0 lg:left-1/2">
         <img
           className="h-64 w-full bg-gray-50 dark:bg-gray-900 object-cover sm:h-80 lg:absolute lg:h-full"

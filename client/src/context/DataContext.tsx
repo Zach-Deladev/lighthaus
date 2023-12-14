@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useContext,
   useState,
@@ -19,180 +19,249 @@ interface UserCredentials {
   password: string;
 }
 
+// Define interface for user profile data
+interface UserProfileData {
+  // Add properties for user profile data, e.g., name, email, etc.
+}
+
+// Define an interface for Event data
+interface EventData {
+  id: string;
+  user: string; // Assuming this is the user ID
+  title: string;
+  description: string;
+  date: Date;
+  location: string;
+  startTime: string;
+  endTime: string;
+  ticketLink: string;
+}
+
 // Type the props of DataProvider
 interface DataProviderProps {
   children: ReactNode;
 }
 
-interface UserProfileData {
-  // Add properties for user profile data
-}
-
 // Define and export the DataContext type
 export type DataContextType = {
+  // User-related properties and methods
   userData: UserData | null;
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
-  authUser: (credentials: UserCredentials) => Promise<any>;
+  authUser: (credentials: UserCredentials) => Promise<void>;
   logoutUser: () => void;
-  registerUser: (userData: UserData) => Promise<any>;
-  updateUserProfile: (profileData: UserProfileData) => Promise<any>;
+  registerUser: (userData: UserData) => Promise<void>;
+  updateUserProfile: (profileData: UserProfileData) => Promise<void>;
+
+  // Event-related properties and methods
+  events: EventData[];
+  fetchEvents: () => Promise<void>;
+  createEvent: (eventData: EventData) => Promise<void>;
+  updateEvent: (eventId: string, eventData: EventData) => Promise<void>;
+  deleteEvent: (eventId: string) => Promise<void>;
 };
 
+// Initialize the context with default values
 const initialContext: DataContextType = {
+  // User-related initializations
   userData: null,
   isAuthenticated: false,
-  setIsAuthenticated: () => {
-    // Placeholder function
-  },
-  authUser: async (credentials: UserCredentials) => {},
+  setIsAuthenticated: () => {},
+  authUser: async () => {},
   logoutUser: () => {},
-  registerUser: async (userData: UserData) => {},
-  updateUserProfile: async (profileData: UserProfileData) => {},
+  registerUser: async () => {},
+  updateUserProfile: async () => {},
+
+  // Event-related initializations
+  events: [],
+  fetchEvents: async () => {},
+  createEvent: async () => {},
+  updateEvent: async () => {},
+  deleteEvent: async () => {},
 };
 
+// Create the DataContext
 const DataContext = createContext<DataContextType>(initialContext);
 
+// Hook to use DataContext in functional components
 export function useData() {
   return useContext(DataContext);
 }
 
+// DataProvider component that provides data to its children
 export function DataProvider({ children }: DataProviderProps) {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [events, setEvents] = useState<EventData[]>([]);
 
+  // Function to fetch user data
   const fetchUserData = async () => {
-    try {
-      const jwt = Cookies.get("jwt");
-      console.log("JWT from cookie:", jwt);
-
-      if (jwt) {
-        const response = await fetch(
-          "http://localhost:5000/api/users/profile",
-          {
-            headers: {
-              Authorization: `Bearer ${jwt}`,
-            },
-            credentials: "include",
-          }
-        );
-
-        if (!response.ok) {
-          console.error(
-            "Profile API Request failed with status:",
-            response.status
-          );
-        } else {
-          const userData = await response.json();
-          console.log("UserData:", userData);
-          setUserData(userData);
-          setIsAuthenticated(true);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching user data: ", error);
-      setUserData(null);
-      setIsAuthenticated(false);
-    }
-  };
-
-  const authUser = async (credentials: UserCredentials) => {
-    try {
-      console.log(
-        "Sending authentication request with credentials:",
-        credentials
-      );
-
-      const response = await fetch("http://localhost:5000/api/users/auth", {
-        method: "POST",
+    const jwt = Cookies.get("jwt");
+    if (jwt) {
+      const response = await fetch("http://localhost:5000/api/users/profile", {
         headers: {
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
         },
-        body: JSON.stringify(credentials),
+        credentials: "include",
       });
-
-      console.log("Received response from authentication API:", response);
-
-      const data = await response.json();
-
-      console.log("Authentication response data:", data);
-
-      if (data.token) {
-        Cookies.set("jwt", data.token, { expires: 7 });
-        console.log("JWT token stored in cookies");
-        fetchUserData();
+      if (response.ok) {
+        const data = await response.json();
+        setUserData(data);
+        setIsAuthenticated(true);
+      } else {
+        setUserData(null);
+        setIsAuthenticated(false);
       }
-
-      return data;
-    } catch (error) {
-      console.error("Authentication error:", error);
-      throw error;
     }
   };
 
+  // Function to authenticate user
+  const authUser = async (credentials: UserCredentials) => {
+    const response = await fetch("http://localhost:5000/api/users/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      Cookies.set("jwt", data.token, { expires: 7 });
+      fetchUserData();
+    }
+  };
+
+  // Function to logout user
   const logoutUser = () => {
     Cookies.remove("jwt");
     setUserData(null);
     setIsAuthenticated(false);
   };
 
+  // Function to register a new user
   const registerUser = async (userData: UserData) => {
-    try {
-      const response = await fetch("http://localhost:5000/api/users/", {
+    const response = await fetch("http://localhost:5000/api/users/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+    if (response.ok) {
+      const data = await response.json();
+      Cookies.set("jwt", data.token, { expires: 7 });
+      fetchUserData();
+    }
+  };
+
+  // Function to update user profile
+  const updateUserProfile = async (profileData: UserProfileData) => {
+    const jwt = Cookies.get("jwt");
+    if (jwt) {
+      const response = await fetch("http://localhost:5000/api/users/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify(profileData),
+      });
+      if (response.ok) {
+        fetchUserData();
+      }
+    }
+  };
+
+  // Function to fetch events
+  const fetchEvents = async () => {
+    const response = await fetch("http://localhost:5000/api/events");
+    if (response.ok) {
+      const eventsData = await response.json();
+      setEvents(eventsData);
+    }
+  };
+
+  // Function to create a new event
+  const createEvent = async (eventData: EventData) => {
+    const jwt = Cookies.get("jwt");
+    if (jwt) {
+      const response = await fetch("http://localhost:5000/api/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(eventData),
       });
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const updateUserProfile = async (profileData: UserProfileData) => {
-    try {
-      const jwt = Cookies.get("jwt");
-      if (jwt) {
-        const response = await fetch(
-          "http://localhost:5000/api/users/profile",
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${jwt}`,
-            },
-            body: JSON.stringify(profileData),
-          }
-        );
-
-        const data = await response.json();
-        return data;
+      if (response.ok) {
+        fetchEvents();
       }
-    } catch (error) {
-      throw error;
     }
   };
 
+  // Function to update an existing event
+  const updateEvent = async (eventId: string, eventData: EventData) => {
+    const jwt = Cookies.get("jwt");
+    if (jwt) {
+      const response = await fetch(
+        `http://localhost:5000/api/events/${eventId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(eventData),
+        }
+      );
+      if (response.ok) {
+        fetchEvents();
+      }
+    }
+  };
+
+  // Function to delete an event
+  const deleteEvent = async (eventId: string) => {
+    const jwt = Cookies.get("jwt");
+    if (jwt) {
+      const response = await fetch(
+        `http://localhost:5000/api/events/${eventId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      if (response.ok) {
+        fetchEvents();
+      }
+    }
+  };
+
+  // Fetch user data on component mount
   useEffect(() => {
     fetchUserData();
   }, []);
-  const setIsAuthenticatedState = (value: boolean) => {
-    setIsAuthenticated(value);
-  };
+
   return (
     <DataContext.Provider
       value={{
+        // User-related data and methods
         userData,
         isAuthenticated,
         authUser,
-        setIsAuthenticated: setIsAuthenticatedState,
+        setIsAuthenticated,
         logoutUser,
         registerUser,
         updateUserProfile,
+
+        // Event-related data and methods
+        events,
+        fetchEvents,
+        createEvent,
+        updateEvent,
+        deleteEvent,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
-import styles from "./events.module.css";
-
-function Events() {
-  return <div className={styles.eventscont}>Events</div>;
-}
+import React from "react";
+import styles from "./Events.module.css";
+const Events = () => {
+  return <div className={styles.eventscont}></div>;
+};
 
 export default Events;

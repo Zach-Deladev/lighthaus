@@ -10,7 +10,6 @@ import Login from "./components/LoginForm";
 import Events from "./pages/Events";
 import Music from "./pages/Music";
 import Contact from "./pages/Contact";
-import Register from "./pages/Register";
 
 function App() {
   const [isAuthenticated, setisAuthenticated] = useState(false); // Set the initial authentication state
@@ -47,7 +46,7 @@ function App() {
             path="/login"
             element={<Login onLoginSuccess={handleLoginSuccess} />}
           />
-          <Route path="/register" element={<Register />}></Route>
+
           <Route
             path="/dashboard"
             element={

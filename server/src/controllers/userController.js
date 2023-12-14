@@ -71,24 +71,6 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-// @desc    Get user profile
-// @route   GET /api/users/profile
-// @access  Private
-const getUserProfile = async (req, res) => {
-  const user = await User.findById(req.user._id);
-  console.log(req.user);
-  if (user) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
-};
-
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
