@@ -10,7 +10,7 @@ import Login from "./components/LoginForm";
 import Events from "./pages/Events";
 import Music from "./pages/Music";
 import Contact from "./pages/Contact";
-
+import Padding from "./components/Padding";
 function App() {
   const [isAuthenticated, setisAuthenticated] = useState(false); // Set the initial authentication state
 
@@ -55,8 +55,22 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/events" element={<Events />}></Route>
-          <Route path="/music" element={<Music />}></Route>
+          <Route
+            path="/events"
+            element={
+              <Padding>
+                <Events />
+              </Padding>
+            }
+          ></Route>
+          <Route
+            path="/music"
+            element={
+              <Padding>
+                <Music />
+              </Padding>
+            }
+          ></Route>
           <Route path="/contact" element={<Contact />}></Route>
         </Routes>
       </BrowserRouter>

@@ -34,8 +34,8 @@ const createEvents = async (req, res) => {
 // Update events
 const updateEvents = async (req, res) => {
   // Get event id
-  const eventId = req.body._id;
-
+  const eventId = req.params.eventId;
+  console.log("Received Event ID for update:", eventId);
   // if no event id found
   if (!eventId) {
     return res
@@ -43,7 +43,9 @@ const updateEvents = async (req, res) => {
       .json({ error: "Event ID is missing from the request parameters" });
   } else {
     try {
-      const event = await Event.findOneAndUpdate({ _id: eventId }, req.body);
+      const event = await Event.findOneAndUpdate({ _id: eventId }, req.body, {
+        new: true,
+      });
       console.log(event);
       res.json(event);
     } catch (error) {
@@ -56,7 +58,7 @@ const updateEvents = async (req, res) => {
 const deleteEvents = async (req, res) => {
   try {
     // Get event id
-    const eventId = req.body._id;
+    const eventId = req.params.eventId;
     await Event.deleteOne({ _id: eventId });
     res.status(200).send();
   } catch (error) {

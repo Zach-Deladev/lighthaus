@@ -9,6 +9,7 @@ const Home = () => {
         <Events onHome={true} />
         <Music onHome={true} />
       </div>
+
       <Footer />
     </>
   );

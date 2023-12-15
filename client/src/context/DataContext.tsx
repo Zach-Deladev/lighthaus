@@ -20,14 +20,12 @@ interface UserCredentials {
 }
 
 // Define interface for user profile data
-interface UserProfileData {
-  // Add properties for user profile data, e.g., name, email, etc.
-}
+interface UserProfileData {}
 
 // Define an interface for Event data
 interface EventData {
-  id: string;
-  user: string; // Assuming this is the user ID
+  _id: string;
+  user: string;
   title: string;
   description: string;
   date: Date;
@@ -63,7 +61,7 @@ export type DataContextType = {
 
 // Initialize the context with default values
 const initialContext: DataContextType = {
-  // User-related initializations
+  // User related initializations
   userData: null,
   isAuthenticated: false,
   setIsAuthenticated: () => {},
@@ -72,7 +70,7 @@ const initialContext: DataContextType = {
   registerUser: async () => {},
   updateUserProfile: async () => {},
 
-  // Event-related initializations
+  // Event related initializations
   events: [],
   fetchEvents: async () => {},
   createEvent: async () => {},
@@ -203,6 +201,10 @@ export function DataProvider({ children }: DataProviderProps) {
   const updateEvent = async (eventId: string, eventData: EventData) => {
     const jwt = Cookies.get("jwt");
     if (jwt) {
+      console.log(
+        `Updating event at URL: http://localhost:5000/api/events/${eventId}`
+      );
+
       const response = await fetch(
         `http://localhost:5000/api/events/${eventId}`,
         {
@@ -215,6 +217,8 @@ export function DataProvider({ children }: DataProviderProps) {
         }
       );
       if (response.ok) {
+        const updatedEventData = await response.json();
+        console.log("Updated Event:", updatedEventData); // Log the updated event data
         fetchEvents();
       }
     }

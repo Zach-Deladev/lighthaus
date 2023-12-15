@@ -13,12 +13,18 @@ const authUser = async (req, res) => {
     // Generate the token
     const token = generateToken(user._id);
 
-    // Include the token in the JSON response
+    // Set the token as an HTTP-only cookie
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+    });
+
+    // Send response
     res.status(200).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      token: token, // Include the token in the response
+      token: token,
     });
   } else {
     res.status(401).json({
@@ -69,6 +75,23 @@ const logoutUser = (req, res) => {
     expires: new Date(0),
   });
   res.status(200).json({ message: "Logged out successfully" });
+};
+
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+const getUserProfile = async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
 };
 
 // @desc    Update user profile

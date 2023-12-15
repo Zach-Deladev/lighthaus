@@ -8,6 +8,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  padding-top: 175px;
   flex-direction: column; /* Added to stack the content vertically */
 }

@@ -18,10 +18,10 @@ router.post("/", protect, createEvents);
 
 // Update events
 
-router.put("/", protect, updateEvents);
+router.put("/:eventId", protect, updateEvents);
 
 // Delete events
 
-router.delete("/", protect, deleteEvents);
+router.delete("/:eventId", protect, deleteEvents);
 
 export default router;

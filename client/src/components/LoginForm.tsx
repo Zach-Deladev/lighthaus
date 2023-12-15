@@ -18,18 +18,19 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
 
     try {
       const credentials = { email, password };
-      const data = await authUser(credentials);
+      await authUser(credentials); // If this function doesn't throw, assume success
 
-      if (data.token) {
-        toast.success("Login successful");
-        onLoginSuccess(); // Update the authentication state in the parent component
-        navigate("/");
-      } else {
-        toast.error("Login failed");
-      }
+      toast.success("Login successful");
+      onLoginSuccess(); // Update the authentication state in the parent component
+      navigate("/");
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error("Login failed due to a network or server error");
+      // The error is thrown from the authUser function
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Login error:", errorMessage);
+      toast.error(
+        `Login failed due to a network or server error: ${errorMessage}`
+      );
     }
   };
 
