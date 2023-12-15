@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import DataContext, { DataContextType } from "../context/DataContext"; // Import your context and the DataContextType
+import DataContext, { DataContextType } from "../context/DataContext";
 
 interface LoginFormProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (credentials: { email: string; password: string }) => void;
 }
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
@@ -16,21 +16,19 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const credentials = { email, password };
+
     try {
-      const credentials = { email, password };
-      await authUser(credentials); // If this function doesn't throw, assume success
+      await authUser(credentials);
 
       toast.success("Login successful");
-      onLoginSuccess(); // Update the authentication state in the parent component
+      onLoginSuccess(credentials);
       navigate("/");
     } catch (error) {
-      // The error is thrown from the authUser function
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
       console.error("Login error:", errorMessage);
-      toast.error(
-        `Login failed due to a network or server error: ${errorMessage}`
-      );
+      toast.error(`Login failed: ${errorMessage}`);
     }
   };
 
@@ -43,7 +41,6 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
           </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="email-address" className="sr-only">

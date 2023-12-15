@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useData, DataContextType } from "../context/DataContext"; // Update the path as needed
+import { useData, DataContextType } from "../context/DataContext";
 import EventForm from "../components/EventForm";
 import EventCard from "../components/EventCard";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
-import Newsletter from "../components/Newsletter";
 
 interface EventData {
   _id: string;
@@ -26,20 +25,19 @@ interface EventsProps {
 const Events: React.FC<EventsProps> = ({ onHome }) => {
   const {
     isAuthenticated,
-    userData,
     events,
     fetchEvents,
     createEvent,
     updateEvent,
     deleteEvent,
   } = useData() as DataContextType;
+
   const [loading, setLoading] = useState<boolean>(false);
   const [editingEvent, setEditingEvent] = useState<EventData | null>(null);
   const [showEventForm, setShowEventForm] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
-    console.log(events);
     fetchEvents().finally(() => setLoading(false));
   }, []);
 
@@ -67,12 +65,12 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
   };
 
   return (
-    <div className="container mx-auto my-12 px-2 dark:bg-gray-900">
-      <div className="flex justify-between items-center mb-6 dark:text-white">
+    <div className="container mx-auto  my-12 px-2 dark:bg-gray-900">
+      <div className="flex justify-between  mt-20 items-center mb-6 dark:text-white">
         <h1
           className={`${
-            onHome ? "text-center w-full text-4xl" : "text-5xl"
-          } font-semibold dark:text-white`}
+            onHome ? "text-center w-full text-5xl" : "text-5xl"
+          } font-semibold text-white`}
         >
           {onHome ? "Upcoming Events" : "Events"}
         </h1>
@@ -89,7 +87,7 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
         )}
       </div>
 
-      {showEventForm && !onHome && (
+      {showEventForm && isAuthenticated && !onHome && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 dark:bg-opacity-70"
           onClick={() => setShowEventForm(false)}
@@ -118,7 +116,7 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
       ) : (
         <div
           className={
-            onHome ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : ""
+            onHome ? "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3" : ""
           }
         >
           {events.map((event: EventData) => (
@@ -126,15 +124,17 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
               key={event._id}
               event={event}
               onEdit={
-                !onHome
-                  ? () => {
-                      setEditingEvent(event);
-                      setShowEventForm(true);
-                    }
+                !onHome && isAuthenticated
+                  ? () => setEditingEvent(event)
                   : undefined
               }
-              onDelete={!onHome ? () => handleDelete(event._id) : undefined}
-              isLoggedIn={!onHome && !!userData}
+              onDelete={
+                !onHome && isAuthenticated
+                  ? () => handleDelete(event._id)
+                  : undefined
+              }
+              showButtons={!onHome && isAuthenticated}
+              isHomePage={onHome}
             />
           ))}
         </div>

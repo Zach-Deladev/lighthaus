@@ -1,13 +1,76 @@
-.homecont {
-  width: 100vw;
-  height: 100vh;
-  background-image: url("../assets/bg.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+.cont h1 {
+  color: white;
+}
+
+.cont {
+  position: relative;
+  z-index: 1;
+}
+
+.logo img {
+  width: 700px;
+  margin: auto;
+}
+.logo {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -40%);
+  z-index: 0;
+}
+.backgroundVideo {
+  height: 80vh;
+  width: 100%;
+  object-fit: cover;
+  z-index: -100;
+}
+.socialMediaIcons {
+  position: fixed;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-25%);
+  z-index: 10;
+  border-radius: 3px;
+  border: 2px solid white;
   display: flex;
-  justify-content: center;
+  background-color: #6362624d;
+  flex-direction: column;
   align-items: center;
-  padding-top: 175px;
-  flex-direction: column; /* Added to stack the content vertically */
+  gap: 10px;
+}
+
+.socialMediaIcons a {
+  height: 60px;
+  width: 60px;
+  color: #fff;
+  background: rgba(182, 182, 182, 0);
+  padding: 12px;
+  border-radius: 50%;
+  display: block;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.socialMediaIcons a:hover {
+  transform: scale(1.1);
+  background: #00000000;
+}
+
+@media only screen and (max-width: 728px) {
+  .backgroundVideo {
+    height: 70vh;
+    width: auto;
+    object-fit: cover;
+    z-index: -100;
+  }
+  .logo {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -35%);
+    z-index: 0;
+  }
+
+  .socialMediaIcons {
+    display: none;
+  }
 }

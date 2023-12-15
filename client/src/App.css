@@ -1,10 +1,36 @@
+@import url(https://db.onlinewebfonts.com/c/1212afe19e16c744cbc8b623ba886576?family=Fine+Gothic+Black+W00+Regular);
+@font-face {
+  font-family: "Fine Gothic Black W00 Regular";
+  src: url("https://db.onlinewebfonts.com/t/1212afe19e16c744cbc8b623ba886576.eot");
+  src: url("https://db.onlinewebfonts.com/t/1212afe19e16c744cbc8b623ba886576.eot?#iefix")
+      format("embedded-opentype"),
+    url("https://db.onlinewebfonts.com/t/1212afe19e16c744cbc8b623ba886576.woff2")
+      format("woff2"),
+    url("https://db.onlinewebfonts.com/t/1212afe19e16c744cbc8b623ba886576.woff")
+      format("woff"),
+    url("https://db.onlinewebfonts.com/t/1212afe19e16c744cbc8b623ba886576.ttf")
+      format("truetype"),
+    url("https://db.onlinewebfonts.com/t/1212afe19e16c744cbc8b623ba886576.svg#Fine Gothic Black W00 Regular")
+      format("svg");
+}
 #root {
   margin: 0 auto;
   width: 100vw;
   text-align: center;
   overflow: hidden;
+  /* background-image: url("./assets/bg.png");
+  background-size: cover;
+  background-repeat: no-repeat; */
+  background-color: black;
+  height: "100%";
 }
-
+h1 {
+  color: rgb(240, 240, 240);
+  font-family: "Fine Gothic Black W00 Regular";
+  font-style: normal;
+  font-weight: 10;
+  font-size: 4rem;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

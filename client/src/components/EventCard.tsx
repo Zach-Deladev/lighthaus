@@ -1,26 +1,26 @@
 import React from "react";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
-dayjs.extend(isBetween);
-
 import {
   ClockIcon,
   CalendarIcon,
   MapPinIcon,
 } from "@heroicons/react/24/outline";
 
+dayjs.extend(isBetween);
+
 interface EventCardProps {
   event: any;
-  onEdit: (event: any) => void;
-  onDelete: (id: string) => void;
-  isLoggedIn: boolean;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  showButtons: boolean;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
   event,
   onEdit,
   onDelete,
-  isLoggedIn,
+  showButtons,
 }) => {
   const currentDate = dayjs();
   const eventDate = dayjs(event.date);
@@ -65,22 +65,22 @@ const EventCard: React.FC<EventCardProps> = ({
         <div className="flex flex-col sm:flex-row sm:space-x-2 flex-grow">
           <a
             href={event.ticketLink}
-            className={`flex-grow text-center bg-green-500 dark:bg-green-500 text-white py-2 rounded shadow-lg `}
+            className="flex-grow text-center bg-green-500 dark:bg-green-500 text-white py-2 rounded shadow-lg"
             target="_blank"
             rel="noopener noreferrer"
           >
             Buy Tickets
           </a>
-          {isLoggedIn && (
+          {showButtons && (
             <>
               <button
-                onClick={() => onEdit(event)}
+                onClick={onEdit}
                 className="flex-grow text-center bg-indigo-800 text-white py-2 rounded shadow-lg hover:bg-indigo-800"
               >
                 Edit
               </button>
               <button
-                onClick={() => onDelete(event.id)}
+                onClick={onDelete}
                 className="flex-grow text-center bg-red-700 text-white py-2 rounded shadow-lg hover:bg-red-800"
               >
                 Delete

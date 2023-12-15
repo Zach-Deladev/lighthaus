@@ -62,7 +62,7 @@ function Header({ isAuthenticated, onLogout }: HeaderProps) {
                 Dashboard
               </Nav.Link>
               <Nav.Link onClick={onLogout} className={styles.pagename}>
-                <FaSignOutAlt /> Logout
+                Logout
               </Nav.Link>
             </>
           )}

@@ -1,7 +1,8 @@
-import { useEffect, useState, ReactNode } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useData } from "./context/DataContext";
 import "./App.css";
 import Header from "./components/Header";
 import Admin from "./pages/Admin";
@@ -11,25 +12,17 @@ import Events from "./pages/Events";
 import Music from "./pages/Music";
 import Contact from "./pages/Contact";
 import Padding from "./components/Padding";
-function App() {
-  const [isAuthenticated, setisAuthenticated] = useState(false); // Set the initial authentication state
+import Footer from "./components/Footer";
 
-  useEffect(() => {
-    console.log("Is Logged In State: ", isAuthenticated); // Log whenever isAuthenticated state changes
-  }, [isAuthenticated]);
+function App() {
+  const { isAuthenticated, logoutUser, authUser } = useData();
 
   const handleLogout = () => {
-    setisAuthenticated(false); // Update the authentication state to false
-    console.log("Logged out"); // Log when user logs out
-  };
-
-  const handleLoginSuccess = () => {
-    setisAuthenticated(true);
-    console.log("Logged in successfully"); // Log when user logs in successfully
+    logoutUser();
   };
 
   interface ProtectedRouteProps {
-    children: ReactNode;
+    children: React.ReactNode;
   }
 
   const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
@@ -40,13 +33,15 @@ function App() {
     <>
       <BrowserRouter>
         <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+
         <Routes>
-          <Route path="/" element={<Home />}></Route>
+          <Route path="/" element={<Home />} />
           <Route
             path="/login"
-            element={<Login onLoginSuccess={handleLoginSuccess} />}
+            element={
+              <Login onLoginSuccess={(credentials) => authUser(credentials)} />
+            }
           />
-
           <Route
             path="/dashboard"
             element={
@@ -62,7 +57,7 @@ function App() {
                 <Events />
               </Padding>
             }
-          ></Route>
+          />
           <Route
             path="/music"
             element={
@@ -70,10 +65,11 @@ function App() {
                 <Music />
               </Padding>
             }
-          ></Route>
-          <Route path="/contact" element={<Contact />}></Route>
+          />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </BrowserRouter>
+      <Footer />
       <ToastContainer />
     </>
   );

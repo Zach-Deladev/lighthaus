@@ -12,6 +12,7 @@
 
 .pagename {
   border: 0px #9e0000 solid;
+  color: white;
 }
 
 .pagename:hover {

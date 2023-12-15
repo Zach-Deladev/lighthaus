@@ -14,7 +14,7 @@ export default function Newsletter() {
   return (
     <div className="bg-white dark:bg-gray-800 py-16 sm:py-24 lg:py-32 flex justify-center items-center">
       <div className="mx-auto max-w-7xl text-center">
-        <div className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200 sm:text-4xl mb-8">
+        <div className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200 sm:text-5xl mb-8">
           <h2>Want band news and updates?</h2>
           <p>Sign up for our newsletter.</p>
         </div>

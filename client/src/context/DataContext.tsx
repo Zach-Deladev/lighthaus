@@ -115,17 +115,25 @@ export function DataProvider({ children }: DataProviderProps) {
 
   // Function to authenticate user
   const authUser = async (credentials: UserCredentials) => {
-    const response = await fetch("http://localhost:5000/api/users/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      Cookies.set("jwt", data.token, { expires: 7 });
-      fetchUserData();
+    try {
+      const response = await fetch("http://localhost:5000/api/users/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        Cookies.set("jwt", data.token, { expires: 7 });
+        await fetchUserData();
+        setIsAuthenticated(true);
+      } else {
+        throw new Error("Authentication failed");
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+      setIsAuthenticated(false);
     }
   };
 
