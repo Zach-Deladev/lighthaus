@@ -35,6 +35,7 @@ const EventCard: React.FC<EventCardProps> = ({
   const labelColor = isSoon
     ? "bg-red-300 dark:bg-red-500 text-red-900 dark:text-red-100"
     : "bg-yellow-300 dark:bg-yellow-500 text-yellow-900 dark:text-yellow-100";
+  console.log("Show Buttons: ", showButtons); // Debugging line
 
   return (
     <div className="flex flex-col bg-gradient-to-r from-indigo-500 to-purple-700 dark:white dark:to-purple-900 shadow-2xl p-2 rounded-lg mb-6 hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
