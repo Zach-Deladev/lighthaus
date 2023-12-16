@@ -126,7 +126,11 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
               event={event}
               onEdit={
                 !onHome && isAuthenticated
-                  ? () => setEditingEvent(event)
+                  ? () => {
+                      console.log("Editing event:", event);
+                      setEditingEvent(event);
+                      setShowEventForm(true);
+                    }
                   : undefined
               }
               onDelete={
