@@ -63,8 +63,8 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
     await fetchEvents();
     setLoading(false);
   };
-  console.log("On Home: ", onHome); // Debugging line
-  console.log("Is Authenticated: ", isAuthenticated); // Debugging line
+  // console.log("On Home: ", onHome); // Debugging line
+  // console.log("Is Authenticated: ", isAuthenticated); // Debugging line
   return (
     <div className="container mx-auto my-12 px-2 dark:bg-gray-900">
       <div className="flex justify-between mt-20 items-center mb-6 dark:text-white">

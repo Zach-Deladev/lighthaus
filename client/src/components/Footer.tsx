@@ -1,9 +1,16 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebookF,
+  faInstagram,
+  faTwitter,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 
 interface SocialIcon {
   name: string;
   href: string;
-  icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  icon: JSX.Element;
 }
 
 const navigation = {
@@ -16,38 +23,22 @@ const navigation = {
     {
       name: "Facebook",
       href: "https://www.facebook.com/lighthaus__/",
-      icon: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          {/* SVG path for Facebook */}
-        </svg>
-      ),
+      icon: <FontAwesomeIcon icon={faFacebookF} />,
     },
     {
       name: "Instagram",
       href: "https://www.instagram.com/lighthaus__/",
-      icon: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          {/* SVG path for Instagram */}
-        </svg>
-      ),
+      icon: <FontAwesomeIcon icon={faInstagram} />,
     },
     {
       name: "Twitter",
       href: "https://www.twitter.com/lighthaus__/",
-      icon: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          {/* SVG path for Twitter */}
-        </svg>
-      ),
+      icon: <FontAwesomeIcon icon={faTwitter} />,
     },
     {
       name: "YouTube",
       href: "https://www.youtube.com/lighthaus__/",
-      icon: (props: React.SVGProps<SVGSVGElement>) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          {/* SVG path for YouTube */}
-        </svg>
-      ),
+      icon: <FontAwesomeIcon icon={faYoutube} />,
     },
   ] as SocialIcon[],
 };
@@ -79,7 +70,7 @@ const Footer: React.FC = () => {
               className="text-gray-400 hover:text-gray-500"
             >
               <span className="sr-only">{item.name}</span>
-              <item.icon className="h-6 w-6" aria-hidden="true" />
+              {item.icon}
             </a>
           ))}
         </div>
