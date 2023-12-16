@@ -54,7 +54,7 @@ function App() {
             path="/events"
             element={
               <Padding>
-                <Events />
+                <Events onHome={false} />
               </Padding>
             }
           />

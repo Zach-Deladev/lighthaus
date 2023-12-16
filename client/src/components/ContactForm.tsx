@@ -1,20 +1,53 @@
-import { useState } from "react";
-import { useSendEmail } from "../hooks/useSendEmail";
+import { useState, ChangeEvent, FormEvent } from "react";
+import { toast } from "react-toastify";
 import contactImage from "../assets/contact.jpg";
+
+interface FormData {
+  "first-name"?: string;
+  "last-name"?: string;
+  email: string;
+  event?: string;
+  phone?: string;
+  message?: string;
+  contactType?: string;
+}
+
+const useSendEmail = () => {
+  const [isSending, setIsSending] = useState(false);
+
+  const sendEmail = async (formData: FormData) => {
+    setIsSending(true);
+    // Add your actual email sending logic here
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    console.log("Email sent with data:", formData);
+    toast.success("Email sent!");
+
+    setIsSending(false);
+  };
+
+  return { isSending, sendEmail };
+};
 
 export default function ContactForm() {
   const { isSending, sendEmail } = useSendEmail();
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<FormData>({ email: "" });
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await sendEmail(formData);
-    setFormData({});
+    if (formData.email) {
+      await sendEmail(formData);
+      setFormData({ email: "" });
+    } else {
+      toast.error("Please enter a valid email");
+    }
   };
   return (
     <div className="relative relative bg-gray-100 dark:bg-gray-800">

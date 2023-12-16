@@ -19,7 +19,7 @@ interface EventData {
 }
 
 interface EventsProps {
-  onHome?: boolean;
+  onHome: boolean;
 }
 
 const Events: React.FC<EventsProps> = ({ onHome }) => {
@@ -65,8 +65,8 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
   };
 
   return (
-    <div className="container mx-auto  my-12 px-2 dark:bg-gray-900">
-      <div className="flex justify-between  mt-20 items-center mb-6 dark:text-white">
+    <div className="container mx-auto my-12 px-2 dark:bg-gray-900">
+      <div className="flex justify-between mt-20 items-center mb-6 dark:text-white">
         <h1
           className={`${
             onHome ? "text-center w-full text-5xl" : "text-5xl"
@@ -112,11 +112,11 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
       )}
 
       {loading ? (
-        <Loader height={40} />
+        <Loader />
       ) : (
         <div
           className={
-            onHome ? "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-3" : ""
+            onHome ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : ""
           }
         >
           {events.map((event: EventData) => (
@@ -134,7 +134,6 @@ const Events: React.FC<EventsProps> = ({ onHome }) => {
                   : undefined
               }
               showButtons={!onHome && isAuthenticated}
-              isHomePage={onHome}
             />
           ))}
         </div>

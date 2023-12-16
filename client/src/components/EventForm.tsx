@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 
 interface EventFormProps {
   initialValues?: any;
@@ -15,7 +14,7 @@ const EventForm: React.FC<EventFormProps> = ({
   const [values, setValues] = useState(initialValues ?? {});
   const [error, setError] = useState("");
 
-  const isoToDateString = (isoDate) => {
+  const isoToDateString = (isoDate: string): string => {
     const date = new Date(isoDate);
     return date.toISOString().split("T")[0];
   };

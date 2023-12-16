@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./home.module.css";
 import Events from "./Events";
 import Music from "./Music";
@@ -9,7 +8,6 @@ import {
   faSpotify,
   faInstagram,
   faYoutube,
-  faInstagramSquare,
 } from "@fortawesome/free-brands-svg-icons";
 const Home = () => {
   return (
@@ -48,7 +46,7 @@ const Home = () => {
 
       <div id={styles.cont} className="mx-auto max-w-7xl">
         <Events onHome={true} />
-        <Music onHome={true} />
+        <Music />
       </div>
     </div>
   );

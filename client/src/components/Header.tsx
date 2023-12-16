@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { FaSignOutAlt } from "react-icons/fa";
+import { useState, useRef, useEffect } from "react";
+import { Navbar, Nav } from "react-bootstrap";
+
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./Header.module.css";
