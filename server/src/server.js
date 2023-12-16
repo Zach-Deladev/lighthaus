@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // Configure CORS to allow requests from the client's origin
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your client's actual origin
+    origin: "https://cosmic-otter-3de91d.netlify.app",
     credentials: true, // Enable credentials (cookies)
   })
 );
