@@ -96,12 +96,15 @@ export function DataProvider({ children }: DataProviderProps) {
   const fetchUserData = async () => {
     const jwt = Cookies.get("jwt");
     if (jwt) {
-      const response = await fetch("http://localhost:5000/api/users/profile", {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-        credentials: "include",
-      });
+      const response = await fetch(
+        "https://lighthaus-b4c1c133aeb6.herokuapp.com/api/users/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+          credentials: "include",
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         setUserData(data);
@@ -116,13 +119,16 @@ export function DataProvider({ children }: DataProviderProps) {
   // Function to authenticate user
   const authUser = async (credentials: UserCredentials) => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/auth", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
+      const response = await fetch(
+        "https://lighthaus-b4c1c133aeb6.herokuapp.com/api/users/auth",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(credentials),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         Cookies.set("jwt", data.token, { expires: 7 });
@@ -146,13 +152,16 @@ export function DataProvider({ children }: DataProviderProps) {
 
   // Function to register a new user
   const registerUser = async (userData: UserData) => {
-    const response = await fetch("http://localhost:5000/api/users/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
+    const response = await fetch(
+      "https://lighthaus-b4c1c133aeb6.herokuapp.com/api/users/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       Cookies.set("jwt", data.token, { expires: 7 });
@@ -164,14 +173,17 @@ export function DataProvider({ children }: DataProviderProps) {
   const updateUserProfile = async (profileData: UserProfileData) => {
     const jwt = Cookies.get("jwt");
     if (jwt) {
-      const response = await fetch("http://localhost:5000/api/users/profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify(profileData),
-      });
+      const response = await fetch(
+        "https://lighthaus-b4c1c133aeb6.herokuapp.com/api/users/profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(profileData),
+        }
+      );
       if (response.ok) {
         fetchUserData();
       }
@@ -180,7 +192,9 @@ export function DataProvider({ children }: DataProviderProps) {
 
   // Function to fetch events
   const fetchEvents = async () => {
-    const response = await fetch("http://localhost:5000/api/events");
+    const response = await fetch(
+      "https://lighthaus-b4c1c133aeb6.herokuapp.com/api/events"
+    );
     if (response.ok) {
       const eventsData = await response.json();
       setEvents(eventsData);
@@ -191,14 +205,17 @@ export function DataProvider({ children }: DataProviderProps) {
   const createEvent = async (eventData: EventData) => {
     const jwt = Cookies.get("jwt");
     if (jwt) {
-      const response = await fetch("http://localhost:5000/api/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify(eventData),
-      });
+      const response = await fetch(
+        "https://lighthaus-b4c1c133aeb6.herokuapp.com/api/events",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+          body: JSON.stringify(eventData),
+        }
+      );
       if (response.ok) {
         fetchEvents();
       }
@@ -210,11 +227,11 @@ export function DataProvider({ children }: DataProviderProps) {
     const jwt = Cookies.get("jwt");
     if (jwt) {
       console.log(
-        `Updating event at URL: http://localhost:5000/api/events/${eventId}`
+        `Updating event at URL: https://lighthaus-b4c1c133aeb6.herokuapp.com/api/events/${eventId}`
       );
 
       const response = await fetch(
-        `http://localhost:5000/api/events/${eventId}`,
+        `https://lighthaus-b4c1c133aeb6.herokuapp.com/api/events/${eventId}`,
         {
           method: "PUT",
           headers: {
@@ -237,7 +254,7 @@ export function DataProvider({ children }: DataProviderProps) {
     const jwt = Cookies.get("jwt");
     if (jwt) {
       const response = await fetch(
-        `http://localhost:5000/api/events/${eventId}`,
+        `https://lighthaus-b4c1c133aeb6.herokuapp.com/api/events/${eventId}`,
         {
           method: "DELETE",
           headers: {
