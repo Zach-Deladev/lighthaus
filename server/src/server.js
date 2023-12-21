@@ -23,10 +23,13 @@ app.use(
   cors({
     origin: "https://cosmic-otter-3de91d.netlify.app",
     credentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: "Content-Type,Authorization",
   })
 );
+
+// Enable pre-flight across-the-board
+app.options("*", cors());
 
 app.use("/api/users", userRoutes);
 app.use("/api/events", eventRoutes);
