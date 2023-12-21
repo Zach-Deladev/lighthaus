@@ -23,6 +23,8 @@ app.use(
   cors({
     origin: "https://cosmic-otter-3de91d.netlify.app",
     credentials: true, // Enable credentials (cookies)
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
   })
 );
 
