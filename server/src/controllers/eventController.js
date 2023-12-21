@@ -3,15 +3,14 @@ import Event from "../models/eventModel.js";
 // Get events
 
 const getEvents = async (req, res) => {
-  const events = await Event.find();
-  //  add a method to list events by date
-  // const today = new Date();
-  //               today.setHours(0, 0, 0, 0); // Set the time to 00:00:00 so that we only compare the date part
-  //               const events = await Events.find({
-  //                   date: {
-  //                       $gte: today, // $gte means "greater than or equal to"
-  //                   },
-  //               }).sort({ date: 1 })
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const events = await Event.find({
+    date: {
+      $gte: today, // $gte
+    },
+  }).sort({ date: 1 });
+
   res.status(200).json(events);
 };
 

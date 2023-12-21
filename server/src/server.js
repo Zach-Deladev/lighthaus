@@ -14,11 +14,7 @@ const port = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Configure CORS to allow requests from the client's origin
 app.use(
   cors({
     origin: "https://cosmic-otter-3de91d.netlify.app",
@@ -28,7 +24,10 @@ app.use(
   })
 );
 
-// Enable pre-flight across-the-board
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.options("*", cors());
 
 app.use("/api/users", userRoutes);
